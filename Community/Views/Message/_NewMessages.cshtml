@@ -1,0 +1,87 @@
+﻿@model List<List<Community.ViewModels.MessageViewModels.InboxViewModel>>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+@if (@Model.Count > 0)
+{
+    <script type="text/javascript">
+
+        function loadDetail(id) {
+            var value = $('#show' + id).val();
+
+            if (value === '1') {
+
+                $('#show' + id).val('0');
+                $.ajax({
+                    url: '@Url.Action("_Detail", "Message")',
+                    data: "id=" + id,
+                    type: "GET",
+                    success: function(data) {
+                        $('#inbox').val(id);
+                        $('#subtable' + id).html(data);
+                    },
+                    error: function(passParams) {
+
+                    }
+                });
+            } else {
+                $('#show' + id).val('1');
+                $('#subtable' + id).html("");
+                $('#divRead').html("");
+            }
+        }
+
+    </script>
+
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                From
+            </th>
+            <th>
+                First Name
+            </th>
+            <th>
+                Last Name
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+
+        @for (var i = 0; i < @Model.Count; i++)
+        {
+            <tr class="warning">
+                <td>
+                    @(i + 1)
+                </td>
+                <td>
+                    @Model[i].First().Username
+                </td>
+                <td>
+                    @Model[i].First().FirstName
+                </td>
+                <td>
+                    @Model[i].First().LastName
+                </td>
+
+                <td>
+                    <input type="hidden" id="show@{@i}" value="1"/>
+                                                   <a>
+                                                       <i class="glyphicon glyphicon-list" onclick="loadDetail(@i)"></i>
+                                                   </a>
+                                                   </td>
+                                                   </tr>
+            <tr>
+                <td class="col-md-offset-5" colspan='4' id="subtable@{@i}"></td>
+                                                                      </tr>
+        }
+                                                                      </tbody>
+                                                                      </table>
+}
+else
+{
+    <h4>You have no new messages not even from your mother!</h4>
+}

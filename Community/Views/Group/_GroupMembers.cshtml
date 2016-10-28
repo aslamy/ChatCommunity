@@ -1,0 +1,22 @@
+﻿@model List<string>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    Group Members
+                </h3>
+                <span class="pull-right clickable"><i class=""></i></span>
+            </div>
+            <div class="panel-body">
+                @foreach (var name in @Model)
+                {
+                    <span>@name;  </span>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,123 @@
+﻿@using Community.Models
+@model List<Community.ViewModels.MessageViewModels.InboxViewModel>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script type="text/javascript">
+
+    function loadRead(id, detailId) {
+        $.ajax({
+            url: '@Url.Action("_Read", "Message")',
+            data: "id=" + id,
+            type: "GET",
+            success: function(data) {
+                updateMessages(detailId);
+                $('#divRead').html(data);
+
+            },
+            error: function(passParams) {
+                // code here
+            }
+        });
+
+
+    }
+
+
+    function deleteMessage(id, detailId) {
+        $.ajax({
+            url: '@Url.Action("DeleteMessage", "Message")',
+            data: "id=" + id,
+            type: "POST",
+            success: function(data) {
+                updateMessages(detailId);
+                $('#divRead').html(data);
+            },
+            error: function(passParams) {
+                // code here
+            }
+        });
+
+    }
+
+    function updateMessages(id) {
+        $.ajax({
+            url: '@Url.Action("_Detail", "Message")',
+            data: "id=" + id,
+            type: "GET",
+            success: function(data) {
+                $('#subtable' + id).html(data);
+            },
+            error: function(passParams) {
+
+            }
+        });
+
+    }
+
+</script>
+
+
+<table class="table table-hover">
+    <tbody>
+
+    @for (var i = 0; i < @Model.Count; i++)
+    {
+        if (@Model[i].Status == MessageStatus.Unread)
+        {
+            <tr class="success">
+                <td>
+                    @(i + 1)
+                </td>
+                <td>
+                    @Model[i].Subjcet
+                </td>
+                <td>
+                    @Model[i].Date
+                </td>
+                <td>
+
+                </td>
+                <td>
+
+                    <a data-original-title="Remove this user" data-toggle="tooltip" class="btn btn-sm btn-danger" onclick="deleteMessage(@Model[i].MessageId, @ViewBag.detailID)">
+                        <i class="glyphicon glyphicon-remove"></i>
+                    </a>
+                    <a data-original-title="Broadcast Message" data-toggle="tooltip" class="btn btn-sm btn-primary" onclick="loadRead(@Model[i].MessageId, @ViewBag.detailID)">
+                        <i class="glyphicon glyphicon-envelope"></i>
+                    </a>
+
+                </td>
+            </tr>
+        }
+        else if (@Model[i].Status == MessageStatus.Read)
+        {
+            {
+                <tr class="active">
+                    <td>
+                        @(i + 1)
+                    </td>
+                    <td>
+                        @Model[i].Subjcet
+                    </td>
+                    <td>
+                        @Model[i].Date
+                    </td>
+
+                    <td>
+
+                    </td>
+                    <td>
+
+                        <a class="btn btn-sm btn-danger" onclick="deleteMessage(@Model[i].MessageId, @ViewBag.detailID)">
+                            <i class="glyphicon glyphicon-remove"></i>
+                        </a>
+                        <a class="btn btn-sm btn-primary" onclick="loadRead(@Model[i].MessageId, @ViewBag.detailID)">
+                            <i class="glyphicon glyphicon-envelope"></i>
+                        </a>
+
+                    </td>
+                </tr>
+            }
+        }
+    }
+    </tbody>
+</table>

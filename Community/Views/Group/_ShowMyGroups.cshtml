@@ -1,0 +1,94 @@
+﻿@model List<Community.ViewModels.GroupViewModels.GroupsViewModel>
+
+<script type="text/javascript">
+
+    function showGroupDetail(id) {
+
+        $.ajax({
+            url: '@Url.Action("_Group", "Group")',
+            data: "id=" + id,
+            type: "POST",
+            success: function(data) {
+
+                $('#divResult').html(data);
+            },
+            error: function(passParams) {
+
+            }
+        });
+    }
+
+</script>
+
+<div class="panel panel-primary" style="margin-top: 100px">
+    <div class="panel-heading">
+        <h3 class="panel-title">My Groups</h3>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            @if (@Model.Count > 0)
+            {
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>
+
+                        </th>
+                        <th>
+                            Group Name
+                        </th>
+                        <th>
+                            Description
+                        </th>
+                        <th>
+                            Created
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    @for (var i = 0; i < @Model.Count; i++)
+                    {
+                        using (Ajax.BeginForm("_Group", "Group", new {id = Model[i].GroupId}, new AjaxOptions {UpdateTargetId = "divResult", InsertionMode = InsertionMode.Replace, HttpMethod = "post"}))
+                        {
+                            <tr class="success">
+                                <td>
+                                    @(i + 1)
+                                </td>
+                                <td>
+                                    @Model[i].GroupName
+                                </td>
+                                <td>
+                                    @Model[i].Description
+                                </td>
+                                <td>
+                                    @Model[i].TimeCreated.ToString("yyyy-MM-dd")
+                                </td>
+
+                                <td>
+
+
+                                <td>
+
+
+                                    <a class="btn btn-sm btn-primary" onclick="showGroupDetail(@Model[i].GroupId)">
+                                        Show
+                                        <i class="glyphicon glyphicon-eye-open"></i>
+                                    </a>
+
+                                </td>
+                            </tr>
+                            <tr></tr>
+                        }
+                    }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <h4>You have no groups!</h4>
+            }
+
+        </div>
+    </div>
+</div>

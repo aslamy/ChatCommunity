@@ -1,0 +1,64 @@
+﻿@model Community.ViewModels.MessageViewModels.SendMessageViewModel
+<div class="panel panel-primary" style="margin-top: 100px">
+    <div class="panel-heading">
+        <h3 class="panel-title">Send Message</h3>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-1">
+                <div class="well well-lg">
+
+                    @using (Html.BeginForm("Send", "Message", FormMethod.Post, new {@class = "form-horizontal", role = "form"}))
+                    {
+                        <fieldset>
+                            <legend class="text-center">New Message</legend>
+
+                            @if (TempData["successMessage"] != null)
+                            {
+                                <div class="alert alert-success">
+                                    <strong>@TempData["successMessage"]</strong>
+                                </div>
+                            }
+                            @if (TempData["errorMessage"] != null)
+                            {
+                                <div class="alert alert-danger">
+                                    <strong>@TempData["errorMessage"]</strong>
+                                </div>
+                            }
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.ReceiverName, new {@class = "col-md-3 control-label"})
+                                <div class="col-md-9">
+                                    @Html.TextBoxFor(m => m.ReceiverName, new {@class = "form-control form-control", @placeholder = "Please enter username"})
+                                    @Html.ValidationMessageFor(m => m.ReceiverName, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.Subjcet, new {@class = "col-md-3 control-label"})
+                                <div class="col-md-9">
+                                    @Html.TextBoxFor(m => m.Subjcet, new {@class = "form-control form-control", @placeholder = "Please enter subject"})
+                                    @Html.ValidationMessageFor(m => m.Subjcet, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.Message, new {@class = "col-md-3 control-label"})
+                                <div class="col-md-9">
+                                    @Html.TextAreaFor(m => m.Message, new {@class = "form-control form-control", @placeholder = "Please enter your message here...", @rows = 8})
+                                    @Html.ValidationMessageFor(m => m.Message, "", new {@class = "text-danger"})
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <div class="col-md-12 text-center">
+                                    <button type="submit" class="btn btn-primary btn-lg">Send</button>
+                                </div>
+                            </div>
+                        </fieldset>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

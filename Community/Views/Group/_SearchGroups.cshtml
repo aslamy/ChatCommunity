@@ -1,0 +1,29 @@
+﻿<link href="~/Content/style.css" rel="stylesheet"/>
+
+<div class="panel panel-primary" style="margin-top: 100px">
+    <div class="panel-heading">
+        <h3 class="panel-title">Search Groups</h3>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+
+            <a>
+                @Ajax.ActionLink("All Groups", "_SearchGroupResult", "Group", new AjaxOptions
+                {
+                    HttpMethod = "Get",
+                    UpdateTargetId = "divSearchResult",
+                    InsertionMode = InsertionMode.Replace
+                })<span class="sub_icon"></span>
+            </a>
+            @using (Ajax.BeginForm("_SearchGroupResult", "Group", new AjaxOptions {UpdateTargetId = "divSearchResult", InsertionMode = InsertionMode.Replace, HttpMethod = "post"}, new {@class = "form-inline", role = "form"}))
+            {
+                <input type="text" name="keyword" class="search-query" placeholder="Search..."/>
+            }
+        </div>
+        <div id="divSearchResult">
+
+            @Html.Action("_SearchGroupResult", "Group")
+        </div>
+
+    </div>
+</div>

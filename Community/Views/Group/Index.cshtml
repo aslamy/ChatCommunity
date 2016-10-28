@@ -1,0 +1,62 @@
+﻿<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<link href="~/Content/style.css" rel="stylesheet"/>
+<div id="wrapper" class="active">
+
+    <div id="sidebar-wrapper">
+        <ul id="sidebar_menu" class="sidebar-nav">
+            <li class="sidebar-brand">
+                <a id="menu-toggle" href="#">Group<span id="main_icon" class=""></span></a>
+            </li>
+        </ul>
+        <ul class="sidebar-nav" id="sidebar">
+            <li>
+                <a>
+                    @Ajax.ActionLink("Show My Groups", "_ShowMyGroups", "Group", new AjaxOptions
+                    {
+                        HttpMethod = "Get",
+                        UpdateTargetId = "divResult",
+                        InsertionMode = InsertionMode.Replace
+                    })<span class="sub_icon"></span>
+                </a>
+            </li>
+
+            <li>
+                <a>
+                    @Ajax.ActionLink("Search Groups", "_SearchGroups", "Group", new AjaxOptions
+                    {
+                        HttpMethod = "Get",
+                        UpdateTargetId = "divResult",
+                        InsertionMode = InsertionMode.Replace
+                    })<span class="sub_icon"></span>
+                </a>
+            </li>
+            <li>
+                <a>
+                    @Ajax.ActionLink("Create Group", "_Create", "Group", new AjaxOptions
+                    {
+                        HttpMethod = "Get",
+                        UpdateTargetId = "divResult",
+                        InsertionMode = InsertionMode.Replace
+                    })<span class="sub_icon"></span>
+                </a>
+            </li>
+
+        </ul>
+    </div>
+
+    <!-- Page content -->
+    <div id="page-content-wrapper">
+        <!-- Keep all page content within the page-content inset div! -->
+        <div class="page-content inset">
+            <div class="row">
+                <div class="col-md-12" id="divResult" style="margin-top: 40px">
+
+                    @Html.Action("_ShowMyGroups", "Group")
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

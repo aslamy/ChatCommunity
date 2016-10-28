@@ -1,0 +1,99 @@
+﻿@using Community.Models
+@model List<Community.ViewModels.GroupViewModels.GroupsViewModel>
+
+<script type="text/javascript">
+
+    var keyword = '@(ViewBag.keyword)';
+
+    function sendGroupRequest(id) {
+        $.ajax({
+            url: '@Url.Action("_SearchGroupResult", "Group")',
+            data: { 'id': id, 'keyword': keyword },
+            type: "POST",
+            success: function(data) {
+
+                $('#divSearchResult').html(data);
+            },
+            error: function(passParams) {
+
+            }
+        });
+    }
+
+</script>
+
+
+@if (@Model.Count > 0)
+{
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>
+
+            </th>
+            <th>
+                Group Name
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                Created
+            </th>
+            <th>
+                Status
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+
+        @for (var i = 0; i < @Model.Count; i++)
+        {
+            using (Ajax.BeginForm("_Group", "Group", new {id = Model[i].GroupId}, new AjaxOptions {UpdateTargetId = "divResult", InsertionMode = InsertionMode.Replace, HttpMethod = "post"}))
+            {
+                <tr class="danger">
+                    <td>
+                        @(i + 1)
+                    </td>
+                    <td>
+                        @Model[i].GroupName
+                    </td>
+                    <td>
+                        @Model[i].Description
+                    </td>
+                    <td>
+                        @Model[i].TimeCreated.ToString("yyyy-MM-dd")
+                    </td>
+
+                    <td>
+                        @if (@Model[i].GroupStatus == null || @Model[i].GroupStatus == GroupStatus.Denied)
+                        {
+                            <a class="btn btn-sm btn-primary " onclick="sendGroupRequest(@Model[i].GroupId)">
+                                Request
+
+                            </a>
+                        }
+                        else if (@Model[i].GroupStatus == GroupStatus.Accepted)
+                        {
+                            <a class="text-success">
+                                Already Member
+                            </a>
+                        }
+                        else if (@Model[i].GroupStatus == GroupStatus.Waiting)
+                        {
+                            <a class="text-danger">
+                                Request is send
+                            </a>
+                        }
+                    </td>
+                </tr>
+                <tr></tr>
+            }
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <h4> There is no group to show!!</h4>
+}

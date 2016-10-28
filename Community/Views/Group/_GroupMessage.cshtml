@@ -1,0 +1,44 @@
+﻿@model List<Community.ViewModels.GroupViewModels.MessageGroupViewModel>
+
+
+@foreach (var entity in @Model)
+{
+    if (entity.CurrentUserName != entity.MessageCreatorName)
+    {
+        <li class="left clearfix">
+            <span class="chat-img pull-left">
+                <img src="~/Images/user.png" alt="User Avatar" class="img-circle" />
+            </span>
+            <div class="chat-body clearfix">
+                <div class="header">
+                    <strong class="primary-font">@entity.MessageCreatorName</strong> <small class="pull-right text-muted">
+                        <span class="glyphicon glyphicon-time"></span>@entity.MessageTimeCreated
+                    </small>
+                </div>
+                <p>
+                    @entity.MessageText
+                </p>
+            </div>
+        </li>
+    }
+    else
+    {
+        <li class="right clearfix">
+            <span class="chat-img pull-right">
+
+            <img src="~/Images/me.png" alt="User Avatar" class="img-circle" />
+        </span>
+            <div class="chat-body clearfix">
+                <div class="header">
+                    <small class=" text-muted">
+                        <span class="glyphicon glyphicon-time"></span>@entity.MessageTimeCreated
+                    </small>
+                    <strong class="pull-right primary-font">@entity.MessageCreatorName</strong>
+                </div>
+                <p>
+                    @entity.MessageText
+                </p>
+            </div>
+        </li>
+    }
+}
